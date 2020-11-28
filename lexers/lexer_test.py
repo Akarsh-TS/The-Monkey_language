@@ -1,29 +1,31 @@
-from tokens.token import TokenType
+import unittest
+
+from lexers.lexer import Lexer
+from tokens.token import TokenType, Token
 
 
-def lexer_test():
-    input = "=+-,(){};"
+class TokenTest(unittest.TestCase):
+    def test_simple_tokens(self):
+        input = "=+-,(){};"
 
-    tests = [
-        (TokenType.ASSIGN, '='),
-        (TokenType.PLUS, '+'),
-        (TokenType.MINUS, '-'),
-        (TokenType.COMMA, ','),
-        (TokenType.LPAREN, '('),
-        (TokenType.RPAREN, ')'),
-        (TokenType.LBRACE, '{'),
-        (TokenType.RBRACE, '}'),
-        (TokenType.SEMICOLON, ';'),
-    ]
+        tests = [
+            Token(TokenType.ASSIGN, "="),
+            Token(TokenType.PLUS, '+'),
+            Token(TokenType.MINUS, '-'),
+            Token(TokenType.COMMA, ','),
+            Token(TokenType.LPAREN, '('),
+            Token(TokenType.RPAREN, ')'),
+            Token(TokenType.LBRACE, '{'),
+            Token(TokenType.RBRACE, '}'),
+            Token(TokenType.SEMICOLON, ';'),
+        ]
 
-    lexer = Lexer(input)
-    for type, literal in tests:
-        token = lexer.nextToken()
-        if token.type == type and literal == token.literal:
-            print("(", token.type, " : ", token.literal, ")")
-        else:
-            print("Test failed at: ")
-            print("\tEXPECTED:")
-            print("\t\t", type, " : " + literal)
-            print("\tGOT")
-            print("\t\t", token.type, " : " + token.literal)
+        lexer_obj = Lexer(input)
+        for t in tests:
+            token = lexer_obj.next_token()
+            self.assertEqual(token.type, t.type)
+            self.assertEqual(token.literal, t.literal)
+
+
+if __name__ == '__main__':
+    unittest.main()

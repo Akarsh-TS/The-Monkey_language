@@ -15,5 +15,5 @@ class TokenType(enum.Enum):
 
 class Token:
     def __init__(self, type: TokenType, literal: str):
-        self.type = None
-        self.literal = None
+        self.type = TokenType
+        self.literal = literal
